@@ -2,12 +2,13 @@ package logic
 
 import (
 	"learn/bluebell/dao/mysql"
+	"learn/bluebell/models"
 	"learn/bluebell/pkg/snowflake"
 )
 
 // 存放业务的逻辑代码
 
-func SignUp() {
+func SignUp(p *models.ParamSignUp) {
 	// 0. 判断用户是否存在
 	mysql.QueryUserByUserName()
 	// 1. 生成 UID

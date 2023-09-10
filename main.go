@@ -6,7 +6,6 @@ import (
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"learn/bluebell/dao/mysql"
-	"learn/bluebell/dao/redis"
 	"learn/bluebell/logger"
 	"learn/bluebell/routers"
 	"learn/bluebell/settings"
@@ -39,14 +38,14 @@ func main() {
 		return
 	}
 
-	if err := redis.Init(settings.Conf.RedisConfig); err != nil {
-		fmt.Printf("init reids failed:%v\n", err)
-		return
-	}
+	//if err := redis.Init(settings.Conf.RedisConfig); err != nil {
+	//	fmt.Printf("init reids failed:%v\n", err)
+	//	return
+	//}
 	defer mysql.Close()
-	defer redis.Close()
+	//defer redis.Close()
 	// 4. 注册路由
-	r := routers.Setup()
+	r := routers.Setup(settings.Conf.Mode)
 
 	// 5. 启动服务(优雅关机)
 	srv := &http.Server{
