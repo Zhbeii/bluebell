@@ -1,4 +1,4 @@
-package controllers
+package controller
 
 import (
 	"fmt"
@@ -30,8 +30,10 @@ func InitTrans(locale string) (err error) {
 			}
 			return name
 		})
+
 		// 为SignUpParam注册自定义校验方法
 		v.RegisterStructValidation(SignUpParamStructLevelValidation, models.ParamSignUp{})
+
 		zhT := zh.New() // 中文翻译器
 		enT := en.New() // 英文翻译器
 

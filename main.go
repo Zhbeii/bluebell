@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
-	"learn/bluebell/controllers"
+	"learn/bluebell/controller"
 	"learn/bluebell/dao/mysql"
 	"learn/bluebell/logger"
 	"learn/bluebell/routers"
@@ -47,8 +47,8 @@ func main() {
 	//defer redis.Close()
 
 	// 初始化 gin 框架内置的校验器使用的翻译器
-	if err := controllers.InitTrans("zh"); err != nil {
-		fmt.Printf("init trans failed:%v\n", err)
+	if err := controller.InitTrans("zh"); err != nil {
+		fmt.Printf("init validator trans failed, err:%v\n", err)
 		return
 	}
 	// 4. 注册路由

@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	"learn/bluebell/controllers"
+	"learn/bluebell/controller"
 	"learn/bluebell/logger"
 	"net/http"
 )
@@ -16,7 +16,7 @@ func SetupRouter(mode string) *gin.Engine {
 	}
 	// 注册路由业务
 	// todo 这个 signup 使用 postman 无法返回 200
-	r.POST("/signup", controllers.SignUpHandler)
+	r.POST("/signup", controller.SignUpHandler)
 	r.GET("ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "pong")
 	})

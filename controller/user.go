@@ -1,6 +1,7 @@
-package controllers
+package controller
 
 import (
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -20,7 +21,8 @@ func SignUpHandler(c *gin.Context) {
 		// 请求参数有误，直接返回响应
 		zap.L().Error("SignUP with invalid param", zap.Error(err))
 		// 判断 err 是不是 validator.ValidationErrors 类型
-		errs, ok := err.(validator.ValidationErrors)
+		var errs validator.ValidationErrors
+		ok := errors.As(err, &errs)
 		if !ok {
 			c.JSON(http.StatusOK, gin.H{
 				"msg": err.Error(),
@@ -43,7 +45,9 @@ func SignUpHandler(c *gin.Context) {
 	fmt.Println(p)
 	ResponseSuccess(c, nil)
 	// 2. 业务处理
-	logic.SignUp(p)
+	if err := logic.SignUp(p); err != nil {
+		c.JSON(http.StatusOK, gin.H{"msg": "注册失败"})
+	}
 	// 3. 返回响应
 	ResponseSuccess(c, nil)
 }

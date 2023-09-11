@@ -8,13 +8,22 @@ import (
 
 // 存放业务的逻辑代码
 
-func SignUp(p *models.ParamSignUp) {
+func SignUp(p *models.ParamSignUp) (err error) {
 	// 0. 判断用户是否存在
-	mysql.QueryUserByUserName()
+	if err := mysql.CheckUserExist(p.Username); err != nil {
+		return err
+	}
+
 	// 1. 生成 UID
-	snowflake.GenID()
-	// 密码加密
+	userID := snowflake.GenID()
+
+	// 构造一个user实例
+	user := &models.User{
+		UserID:   userID,
+		Username: p.Username,
+		Password: p.Password,
+	}
 
 	// 2. 保存进数据库
-	mysql.InsertUser()
+	return mysql.InsertUser(user)
 }
