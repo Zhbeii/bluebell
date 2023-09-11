@@ -7,7 +7,8 @@ import (
 	"net/http"
 )
 
-func Setup(mode string) *gin.Engine {
+func SetupRouter(mode string) *gin.Engine {
+
 	r := gin.New()
 	r.Use(logger.GinLogger(), logger.GinRecovery(true))
 	if mode == gin.ReleaseMode {

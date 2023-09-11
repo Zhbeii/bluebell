@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+	"learn/bluebell/controllers"
 	"learn/bluebell/dao/mysql"
 	"learn/bluebell/logger"
 	"learn/bluebell/routers"
@@ -44,8 +45,14 @@ func main() {
 	//}
 	defer mysql.Close()
 	//defer redis.Close()
+
+	// 初始化 gin 框架内置的校验器使用的翻译器
+	if err := controllers.InitTrans("zh"); err != nil {
+		fmt.Printf("init trans failed:%v\n", err)
+		return
+	}
 	// 4. 注册路由
-	r := routers.Setup(settings.Conf.Mode)
+	r := routers.SetupRouter(settings.Conf.Mode)
 
 	// 5. 启动服务(优雅关机)
 	srv := &http.Server{
